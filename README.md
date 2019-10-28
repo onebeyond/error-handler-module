@@ -1,6 +1,7 @@
 
 # error-handler-module
 
+![npm](https://img.shields.io/npm/v/error-handler-module)
 [![CircleCI](https://circleci.com/gh/guidesmiths/error-handler-module.svg?style=svg)](https://circleci.com/gh/guidesmiths/error-handler-module)
 
 This module provides a way to handle error for different systems with a few methods.
