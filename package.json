@@ -1,0 +1,39 @@
+{
+  "name": "error-handler-module",
+  "version": "1.0.0",
+  "description": "This module provides handling error methods for different systems.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:guidesmiths/error-handler-module.git"
+  },
+  "keywords": [
+    "node",
+    "error",
+    "handling",
+    "jest"
+  ],
+  "author": "Kevin Martínez (kevin.martinez@guidesmiths.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guidesmiths/error-handler-module/issues"
+  },
+  "homepage": "https://github.com/guidesmiths/error-handler-module#readme",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "http-status-codes": "^1.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.17.0",
+    "husky": "^3.0.5",
+    "jest": "^24.9.0",
+    "mock-express": "^1.3.0"
+  }
+}
