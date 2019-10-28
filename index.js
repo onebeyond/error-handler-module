@@ -11,7 +11,7 @@ const {
 
 function CustomError(type, message, extra) {
 	Error.captureStackTrace(this, this.constructor);
-	this.name = this.constructor.name;
+	this.name = type || this.constructor.name;
 	this.type = type;
 	this.message = message;
 	this.extra = extra;

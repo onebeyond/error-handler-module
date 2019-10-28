@@ -16,7 +16,7 @@ describe('handleHttpError method', () => {
 
 	const reqMock = {};
 	it('Error must return a Custom Error with 500 as we do not setup a CustomErrorType', () => {
-		const type = 'testError';
+		const type = 'TestError';
 		const message = 'Test error message';
 		const testError = errorFactory(type);
 		const error = testError(message);
