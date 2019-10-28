@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomErrorTypes object Custom error types must match last snapshot 1`] = `
+Object {
+  "BAD_REQUEST": "bad_request",
+  "FORBIDDEN": "forbidden",
+  "NOT_FOUND": "not_found",
+  "SWAGGER_INPUT_VALIDATOR": "swagger_input_validator",
+  "SWAGGER_OUTPUT_VALIDATOR": "swagger_output_validator",
+  "SWAGGER_VALIDATOR": "swagger_validator",
+  "UNAUTHORIZED": "unauthorized",
+  "WRONG_INPUT": "wrong_input",
+}
+`;
