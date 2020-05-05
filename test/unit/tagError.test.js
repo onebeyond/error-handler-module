@@ -17,14 +17,15 @@ describe('tagError method', () => {
   };
 
   const reqMock = {};
-  it('Error must return a Custom Error with 403 as we are tagging this error', () => {
+  it.only('Error must return a Custom Error with 403 as we are tagging this error', () => {
     const type = CustomErrorTypes.FORBIDDEN;
     const message = 'Test error message';
     const testError = errorFactory(type);
     const error = testError(message);
     const taggedError = tagError(error);
     handleHttpError(loggerMock, metricsMock)(taggedError, reqMock, resMock);
-    expect(loggerMock.error).toHaveBeenCalled();
+    expect(loggerMock.error).toHaveBeenCalledTimes(2);
+    expect(loggerMock.error).toHaveBeenLastCalledWith(expect.stringMatching(/tagError.test.js:24:19/));
     expect(metricsMock.trackException).toHaveBeenCalledWith({
       exception: error,
     });

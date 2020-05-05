@@ -17,12 +17,13 @@ function CustomError(type, message, extra) {
   this.extra = extra;
 }
 
-function CustomHTTPError(statusCode, message, extra) {
+function CustomHTTPError(statusCode, message, extra, stack) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.statusCode = statusCode;
   this.message = message;
   this.extra = extra;
+  this.stack = stack;
 }
 
 util.inherits(CustomError, Error);
@@ -54,8 +55,8 @@ const CustomErrorTypes = {
 
 const errorFactory = type => (message, extra) => new CustomError(type, message, extra);
 
-const httpErrorFactory = (statusCode = INTERNAL_SERVER_ERROR) => (message, extra) => (
-  new CustomHTTPError(statusCode, message, extra)
+const httpErrorFactory = (statusCode = INTERNAL_SERVER_ERROR) => (message, extra, stack) => (
+  new CustomHTTPError(statusCode, message, extra, stack)
 );
 
 const tagError = (err, newTypes = {}) => {
@@ -66,22 +67,22 @@ const tagError = (err, newTypes = {}) => {
       .reduce((acum, key) => (
         {
           ...acum,
-          [key]: httpErrorFactory(newTypes[key])(err.message, err.extra),
+          [key]: httpErrorFactory(newTypes[key])(err.message, err.extra, err.stack),
         }
       ), {});
   }
   const errors = {
-    [CustomErrorTypes.BAD_REQUEST]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra),
-    [CustomErrorTypes.FORBIDDEN]: httpErrorFactory(FORBIDDEN)(err.message, err.extra),
-    [CustomErrorTypes.NOT_FOUND]: httpErrorFactory(NOT_FOUND)(err.message, err.extra),
-    server_error: httpErrorFactory()(err.message, err.extra),
+    [CustomErrorTypes.BAD_REQUEST]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
+    [CustomErrorTypes.FORBIDDEN]: httpErrorFactory(FORBIDDEN)(err.message, err.extra, err.stack),
+    [CustomErrorTypes.NOT_FOUND]: httpErrorFactory(NOT_FOUND)(err.message, err.extra, err.stack),
+    server_error: httpErrorFactory()(err.message, err.extra, err.stack),
     [CustomErrorTypes.SWAGGER_INPUT_VALIDATOR]:
-			httpErrorFactory(BAD_REQUEST)(err.message, err.extra),
+			httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     [CustomErrorTypes.SWAGGER_OUTPUT_VALIDATOR]:
-			httpErrorFactory(BAD_REQUEST)(err.message, err.extra),
-    [CustomErrorTypes.SWAGGER_VALIDATOR]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra),
-    [CustomErrorTypes.UNAUTHORIZED]: httpErrorFactory(UNAUTHORIZED)(err.message, err.extra),
-    [CustomErrorTypes.WRONG_INPUT]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra),
+			httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
+    [CustomErrorTypes.SWAGGER_VALIDATOR]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
+    [CustomErrorTypes.UNAUTHORIZED]: httpErrorFactory(UNAUTHORIZED)(err.message, err.extra, err.stack),
+    [CustomErrorTypes.WRONG_INPUT]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     ...extendedTypes,
   };
   debug(`Error type in tagError function: ${err.type}`);
