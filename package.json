@@ -1,6 +1,6 @@
 {
   "name": "error-handler-module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This module provides handling error methods for different systems.",
   "main": "index.js",
   "scripts": {
