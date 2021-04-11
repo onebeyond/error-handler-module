@@ -30,6 +30,7 @@ const CustomErrorTypes = {
   BAD_REQUEST: 'bad_request',
   FORBIDDEN: 'forbidden',
   NOT_FOUND: 'not_found',
+  OAS_VALIDATOR: 'OpenAPIUtilsError:response',
   SWAGGER_VALIDATOR: 'swagger_validator', // Deprecated
   UNAUTHORIZED: 'unauthorized',
   WRONG_INPUT: 'wrong_input',
