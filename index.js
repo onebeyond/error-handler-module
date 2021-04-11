@@ -90,7 +90,7 @@ const tagError = (err, newTypes = {}) => {
 			httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     [CustomErrorTypes.SWAGGER_VALIDATOR]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     [CustomErrorTypes.UNAUTHORIZED]: httpErrorFactory(UNAUTHORIZED)(err.message, err.extra, err.stack),
-    [CustomError.OAS_VALIDATOR]: httpErrorFactory(INTERNAL_SERVER_ERROR)(err.message, err.extra, err.stack),
+    [CustomErrorTypes.OAS_VALIDATOR]: httpErrorFactory(INTERNAL_SERVER_ERROR)(err.message, err.extra, err.stack),
     [CustomErrorTypes.WRONG_INPUT]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     ...extendedTypes,
   };
