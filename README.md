@@ -4,7 +4,16 @@
 ![npm](https://img.shields.io/npm/v/error-handler-module)
 [![CircleCI](https://circleci.com/gh/guidesmiths/error-handler-module.svg?style=svg)](https://circleci.com/gh/guidesmiths/error-handler-module)
 
-This module provides a way to handle error for different systems with a few methods.
+This module provides a way to handle error in an express app with a few methods that creates error and an express error middleware `handleHttpError`.
+
+1. [Installation](#Installation)
+2. [Basic Error types](#Basic-Error-types)
+3. [Methods](#methods)
+  - [errorFactory](#errorFactory)
+  - [handleHttpError](#handleHttpError)
+  - [tagError](#tagError)
+4. [Implementation example](#Implementation-example)
+5. [How to debug the errors](#Debug)
 
 ## Installation
 
@@ -21,7 +30,7 @@ const CustomErrorTypes = {
   BAD_REQUEST: 'bad_request',
   FORBIDDEN: 'forbidden',
   NOT_FOUND: 'not_found',
-  SWAGGER_VALIDATOR: 'swagger_validator',
+  SWAGGER_VALIDATOR: 'swagger_validator', // Deprecated
   UNAUTHORIZED: 'unauthorized',
   WRONG_INPUT: 'wrong_input',
 };
@@ -157,7 +166,7 @@ const {
   tagError,
 } = require('error-handler-module');
 
-const app = MockExpress(); // notice there's no "new"
+const app = express();
 
 const loggerMock = {
   error: () => '',
@@ -176,12 +185,12 @@ app.get('/test-error-basic', (req, res, next) => {
 app.get('/test-error-extended', (req, res, next) => {
   // creating a custom tag error
   // for example custom db-error
-  const dbError = errorFactory('db-access-not-alloed');
+  const dbError = errorFactory('db-access-not-allowed');
   /*
    * New types must be objects with error and a valid status code
    */
   const newErrors = {
-    'db-access-not-alloed': 401,
+    'db-access-not-allowed': 401,
   };
   try {
     throw dbError('db Error');
