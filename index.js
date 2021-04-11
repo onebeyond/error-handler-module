@@ -1,4 +1,5 @@
 const util = require('util');
+const { isPlainObject } = require('lodash');
 const debug = require('debug')('error-handler-module');
 
 const {
@@ -33,9 +34,15 @@ const defaultMetrics = {
   trackException: () => null,
 };
 
+const formatExtraValue = extra => {
+  if (!extra) return '';
+  if (!isPlainObject(extra)) return extra;
+  return JSON.stringify(extra);
+};
+
 const handleHttpError = (logger, metrics = defaultMetrics) => (err, req, res, next) => { // eslint-disable-line no-unused-vars
   debug(err);
-  logger.error(`${err.message} ${err.extra ? `- ${err.extra}` : ''}`);
+  logger.error(`${err.message} ${formatExtraValue(err.extra)}`);
   logger.error(err.stack);
   metrics.trackException({ exception: err });
   res.status(err.statusCode || INTERNAL_SERVER_ERROR)
@@ -49,6 +56,7 @@ const CustomErrorTypes = {
   SWAGGER_INPUT_VALIDATOR: 'swagger_input_validator',
   SWAGGER_OUTPUT_VALIDATOR: 'swagger_output_validator',
   SWAGGER_VALIDATOR: 'swagger_validator',
+  OAS_VALIDATOR: 'OpenAPIUtilsError:response',
   UNAUTHORIZED: 'unauthorized',
   WRONG_INPUT: 'wrong_input',
 };
@@ -82,6 +90,7 @@ const tagError = (err, newTypes = {}) => {
 			httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     [CustomErrorTypes.SWAGGER_VALIDATOR]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     [CustomErrorTypes.UNAUTHORIZED]: httpErrorFactory(UNAUTHORIZED)(err.message, err.extra, err.stack),
+    [CustomError.OAS_VALIDATOR]: httpErrorFactory(INTERNAL_SERVER_ERROR)(err.message, err.extra, err.stack),
     [CustomErrorTypes.WRONG_INPUT]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
     ...extendedTypes,
   };
