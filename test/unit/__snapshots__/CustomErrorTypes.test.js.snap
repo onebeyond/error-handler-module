@@ -5,6 +5,7 @@ Object {
   "BAD_REQUEST": "bad_request",
   "FORBIDDEN": "forbidden",
   "NOT_FOUND": "not_found",
+  "OAS_VALIDATOR": "OpenAPIUtilsError:response",
   "SWAGGER_INPUT_VALIDATOR": "swagger_input_validator",
   "SWAGGER_OUTPUT_VALIDATOR": "swagger_output_validator",
   "SWAGGER_VALIDATOR": "swagger_validator",
