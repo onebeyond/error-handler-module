@@ -34,7 +34,7 @@ describe('Testing fake server error-handler-module', () => {
     app.invoke('get', '/test-error-extended', req, res);
   });
 
-  it('Error invalid input with extended tagError', done => {
+  it('Error invalid input with unhandled error', done => {
     const req = app.makeRequest();
     const res = app.makeResponse((err, sideEffects) => {
       try {
