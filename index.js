@@ -95,7 +95,7 @@ const tagError = (err, newTypes = {}) => {
     ...extendedTypes,
   };
   debug(`Error type in tagError function: ${err.type}`);
-  return errors[err.type || 'server_error'] || 'server_error';
+  return errors[err.type] || errors.server_error;
 };
 
 module.exports = {
