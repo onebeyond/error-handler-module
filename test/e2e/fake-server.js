@@ -22,20 +22,11 @@ app.get('/test-error-basic', (req, res, next) => {
   }
 });
 
-app.get('/test-error-extended', (req, res, next) => {
-  // creating a custom tag error
-  // for example custom db-error
-  const dbError = errorFactory('db-access-not-alloed');
-  /*
-   * New types must be objects with error and a valid status code
-   */
-  const newErrors = {
-    'db-access-not-alloed': 401,
-  };
+app.get('/test-unhandled-error', (req, res, next) => {
   try {
-    throw dbError('db Error');
+    throw new Error('Unhandled error');
   } catch (error) {
-    return next(tagError(error, newErrors));
+    return next(tagError(error));
   }
 });
 
