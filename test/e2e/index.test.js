@@ -33,4 +33,21 @@ describe('Testing fake server error-handler-module', () => {
     });
     app.invoke('get', '/test-error-extended', req, res);
   });
+
+  it('Error invalid input with unhandled error', done => {
+    const req = app.makeRequest();
+    const res = app.makeResponse((err, sideEffects) => {
+      try {
+        // this is needed because the side effect
+        // mock does not refresh and keeps the old state of the message
+        if (sideEffects.json && sideEffects.json.message === 'Unhandled error') {
+          expect(sideEffects.status).toEqual(500);
+          done();
+        }
+      } catch (assertionsError) {
+        done(assertionsError);
+      }
+    });
+    app.invoke('get', '/test-unhandled-error', req, res);
+  });
 });

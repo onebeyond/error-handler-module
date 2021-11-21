@@ -39,6 +39,14 @@ app.get('/test-error-extended', (req, res, next) => {
   }
 });
 
+app.get('/test-unhandled-error', (req, res, next) => {
+  try {
+    throw new Error('Unhandled error');
+  } catch (error) {
+    return next(tagError(error));
+  }
+});
+
 app.use(handleHttpError(loggerMock));
 
 module.exports = app;
