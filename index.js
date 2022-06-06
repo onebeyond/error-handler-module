@@ -69,6 +69,14 @@ const httpErrorFactory = (statusCode = INTERNAL_SERVER_ERROR) => (message, extra
 
 const tagError = (err, newTypes = {}) => {
   let extendedTypes = {};
+  // This data is going to contain technical errors that should never be seen by any client.
+  let updatedExtra;
+  if (err.extra) {
+    const { debug: omited, ...extraSensibleDataOmited } = err.extra;
+    updatedExtra = extraSensibleDataOmited;
+  } else {
+    updatedExtra = err.extra;
+  }
   if (newTypes) {
     debug('Extending tag with your new types');
     extendedTypes = Object.keys(newTypes)
@@ -80,18 +88,18 @@ const tagError = (err, newTypes = {}) => {
       ), {});
   }
   const errors = {
-    [CustomErrorTypes.BAD_REQUEST]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
-    [CustomErrorTypes.FORBIDDEN]: httpErrorFactory(FORBIDDEN)(err.message, err.extra, err.stack),
-    [CustomErrorTypes.NOT_FOUND]: httpErrorFactory(NOT_FOUND)(err.message, err.extra, err.stack),
-    server_error: httpErrorFactory()(err.message, err.extra, err.stack),
+    [CustomErrorTypes.BAD_REQUEST]: httpErrorFactory(BAD_REQUEST)(err.message, updatedExtra, err.stack),
+    [CustomErrorTypes.FORBIDDEN]: httpErrorFactory(FORBIDDEN)(err.message, updatedExtra, err.stack),
+    [CustomErrorTypes.NOT_FOUND]: httpErrorFactory(NOT_FOUND)(err.message, updatedExtra, err.stack),
+    server_error: httpErrorFactory()(err.message, updatedExtra, err.stack),
     [CustomErrorTypes.SWAGGER_INPUT_VALIDATOR]:
-			httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
+      httpErrorFactory(BAD_REQUEST)(err.message, updatedExtra, err.stack),
     [CustomErrorTypes.SWAGGER_OUTPUT_VALIDATOR]:
-			httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
-    [CustomErrorTypes.SWAGGER_VALIDATOR]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
-    [CustomErrorTypes.UNAUTHORIZED]: httpErrorFactory(UNAUTHORIZED)(err.message, err.extra, err.stack),
-    [CustomErrorTypes.OAS_VALIDATOR]: httpErrorFactory(INTERNAL_SERVER_ERROR)(err.message, err.extra, err.stack),
-    [CustomErrorTypes.WRONG_INPUT]: httpErrorFactory(BAD_REQUEST)(err.message, err.extra, err.stack),
+      httpErrorFactory(BAD_REQUEST)(err.message, updatedExtra, err.stack),
+    [CustomErrorTypes.SWAGGER_VALIDATOR]: httpErrorFactory(BAD_REQUEST)(err.message, updatedExtra, err.stack),
+    [CustomErrorTypes.UNAUTHORIZED]: httpErrorFactory(UNAUTHORIZED)(err.message, updatedExtra, err.stack),
+    [CustomErrorTypes.OAS_VALIDATOR]: httpErrorFactory(INTERNAL_SERVER_ERROR)(err.message, updatedExtra, err.stack),
+    [CustomErrorTypes.WRONG_INPUT]: httpErrorFactory(BAD_REQUEST)(err.message, updatedExtra, err.stack),
     ...extendedTypes,
   };
   debug(`Error type in tagError function: ${err.type}`);

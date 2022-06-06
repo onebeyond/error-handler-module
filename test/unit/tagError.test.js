@@ -21,7 +21,7 @@ describe('tagError method', () => {
     const type = CustomErrorTypes.FORBIDDEN;
     const message = 'Test error message';
     const testError = errorFactory(type);
-    const error = testError(message);
+    const error = testError(message, { errCode: 'jestError', debug: 'sensible data' });
     const taggedError = tagError(error);
     handleHttpError(loggerMock, metricsMock)(taggedError, reqMock, resMock);
     expect(loggerMock.error).toHaveBeenCalledTimes(2);
@@ -33,7 +33,9 @@ describe('tagError method', () => {
     expect(resMock.status).toHaveBeenCalledWith(403);
     expect(resMock.json).toHaveBeenCalledWith({
       message,
-      extra: undefined,
+      extra: {
+        errCode: 'jestError',
+      },
     });
   });
 });
