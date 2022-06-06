@@ -45,6 +45,8 @@ const CustomErrorTypes = {
 
 This function creates a custom Error with a type and a message you decide.
 
+Optionally you can add additional information that will be returned separately in the response body
+
 **Example**
 
 ```js
@@ -52,6 +54,7 @@ const { errorFactory, CustomErrorTypes } = require('error-handler-module');
 
 // With Basic Errors
 const wrongInputError = errorFactory(CustomErrorTypes.WRONG_INPUT);
+// const wrongInputError = errorFactory(CustomErrorTypes.WRONG_INPUT, { details: 'extra data goes here' });
 wrongInputError('Error message');
 
 /* returns
@@ -97,6 +100,8 @@ app.use(handleHttpError(logger, metrics));
 ### tagError(error: Error, newTypes: Object)
 
 This function is going to tag your errors from `CustomError` to `HTTPErrors`so that handleHttpError middleware will understand them.
+
+To avoid information leaks the optional `extra` error custom property will ignore returning the internal property `debug`. The rest of the `extra` properties will all be returned.
 
 It receives error and newTypes (*not required*)
 
