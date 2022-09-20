@@ -29,6 +29,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/express": "^4.17.14",
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
