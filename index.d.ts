@@ -12,15 +12,15 @@ export enum CustomErrorTypes {
   WRONG_INPUT= 'wrong_input',
 }
 
-declare class CustomError {
-  constructor(type: CustomErrorTypes, message: any, extra: any);
+declare class CustomError extends Error {
+  constructor(type: CustomErrorTypes, message: unknown, extra: unknown);
   name: CustomErrorTypes | string;
   type: CustomErrorTypes | string;
-  message: any;
-  extra: any;
+  message: unknown;
+  extra: unknown;
 }
 
-export function errorFactory(errorType: CustomErrorTypes | string): (message: string, extra?: any) => CustomError;
+export function errorFactory(errorType: CustomErrorTypes | string): (message: string, extra?: unknown) => CustomError;
 
 type UserLogger = {
   error: (message: string) => void
