@@ -18,7 +18,7 @@
     "jest"
   ],
   "author": "Kevin Martínez (kevin.martinez@guidesmiths.com)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/guidesmiths/error-handler-module/issues"
   },
