@@ -3,6 +3,8 @@
 
 ![npm](https://img.shields.io/npm/v/error-handler-module)
 [![CircleCI](https://circleci.com/gh/guidesmiths/error-handler-module.svg?style=svg)](https://circleci.com/gh/guidesmiths/error-handler-module)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ae7c4688ac9ca251b5d4/maintainability)](https://codeclimate.com/github/onebeyond/error-handler-module/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ae7c4688ac9ca251b5d4/test_coverage)](https://codeclimate.com/github/onebeyond/error-handler-module/test_coverage)
 
 This module provides a way to handle error in an express app with a few methods that creates error and an express error middleware `handleHttpError`.
 
